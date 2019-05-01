@@ -19,13 +19,7 @@
                             <td> {{ $order->id }}</td>
                             <td> {{ $order->partner->name ?? null}} </td>
                             <td> price </td>
-                            <td>
-                                {{--dump($order->orderProducts) --}}
-                                @foreach($order->orderProducts as $product)
-                                    {{dump($product->product->name)}}
-                                    @endforeach
-
-                            </td>
+                            <td> {{ $order->product_names }} </td>
                             <td> {{ $order->string_status }}</td>
                         </tr>
                     @endforeach

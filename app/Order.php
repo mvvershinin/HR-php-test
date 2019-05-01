@@ -22,14 +22,12 @@ class Order extends Model
     {
         return STATUS[$this->status];
     }
-/*
+
     public function getProductNamesAttribute()
     {
-        $names = $this->orderProducts->product->pluck('name');
-        dd($names);
-        return self::implode(', ', $names);
+        return $this->orderProducts->implode('product.name', ', ');
     }
-*/
+
     public function orderProducts()
     {
         return $this->hasMany(OrderProduct::class);
