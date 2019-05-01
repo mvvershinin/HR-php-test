@@ -9,8 +9,8 @@
             </button> <a href="{{ route('index') }}" class="navbar-brand">HR php test</a>
         </div> <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-9">
             <ul class="nav navbar-nav">
-                <li class="active">
-                    <a href="#">Home</a>
+                <li class="@if($active_page == 'orders') active @endif">
+                    <a href="{{ route('orders.index') }}">Orders</a>
                 </li>
                 <li>
                     <a href="#">Link</a>

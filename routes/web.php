@@ -15,10 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 })->name('index');
 
-Route::get('/test', function () {
-    return view('test');
-});
-
 Route::resource('orders', 'OrderController', [
     'only' => ['index', 'edit']
 ]);

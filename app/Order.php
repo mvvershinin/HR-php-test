@@ -2,10 +2,13 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Model Order
+ *
+ * @method static Order indexList()
  *
  * @mixin \Eloquent
  */
@@ -21,6 +24,11 @@ class Order extends Model
     public function getStringStatusAttribute()
     {
         return STATUS[$this->status];
+    }
+
+    public function scopeIndexList(Builder $query)
+    {
+        return $query->with('orderProducts.product', 'partner');
     }
 
     public function getProductNamesAttribute()

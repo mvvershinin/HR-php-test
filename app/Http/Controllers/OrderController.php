@@ -14,12 +14,12 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $data = Order::
-            with('orderProducts.product', 'partner')
+        $data = Order::indexList()
             ->paginate(PAGE_SIZE_REGULAR);
 
         return view('orders.index', [
             'items' => $data,
+            'active_page' => 'orders'
         //    'pagination' => $pagintion ?? null,
         ]);
     }
