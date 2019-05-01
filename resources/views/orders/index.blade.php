@@ -1,0 +1,38 @@
+@extends('layouts.app')
+@section('content')
+    <div class="container-fluid">
+        <div class="row">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>order id</th>
+                        <th>Partner name</th>
+                        <th>Order Price</th>
+                        <th>Order Products</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($items as $order)
+                        <tr>
+                            <td> {{ $order->id }}</td>
+                            <td> {{ $order->partner->name ?? null}} </td>
+                            <td> price </td>
+                            <td>
+                                {{--dump($order->orderProducts) --}}
+                                @foreach($order->orderProducts as $product)
+                                    {{dump($product->product->name)}}
+                                    @endforeach
+
+                            </td>
+                            <td> {{ $order->string_status }}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+@endsection
