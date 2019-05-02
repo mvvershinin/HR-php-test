@@ -27,6 +27,6 @@ $(document).ready(function () {
         $(this).parents('li').addClass("active");
         getList($(this).attr('href'));
     });
-
+    //todo get url from active tab
     getList('http://localhost/ajax/orders-all');
 });
