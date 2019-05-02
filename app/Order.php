@@ -8,8 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Model Order
  *
- * @method static Order indexList()
- *
+ * @method static Order newOrders()
+ * @method static Order overdueOrders()
+ * @method static Order finishedOrders()
+ * @method static Order currentOrders()
+ * @method static Order related()
+  *
  * @mixin \Eloquent
  */
 class Order extends Model
@@ -26,14 +30,54 @@ class Order extends Model
         return STATUS[$this->status];
     }
 
-    public function scopeIndexList(Builder $query)
+    public function scopeCurrentOrders(Builder $query)
     {
-        return $query->with('orderProducts.product', 'partner');
+        return $query
+            ->whereBetween('delivery_dt', [now(), now()->addDay()])
+            ->where('status', CONFIRMED_ORDER)
+            ->orderBy('delivery_dt', 'asc');
+    }
+
+    public function scopeFinishedOrders(Builder $query)
+    {
+        return $query
+            ->whereBetween('delivery_dt', [now(), now()->addDay()])
+            ->where('status', FINISHED_ORDER)
+            ->orderBy('delivery_dt', 'desc');
+    }
+
+    public function scopeNewOrders(Builder $query)
+    {
+        return $query
+            ->where('delivery_dt', '>', now())
+            ->where('status', NEW_ORDER)
+            ->orderBy('delivery_dt', 'asc');
+    }
+
+    public function scopeOverdueOrders(Builder $query)
+    {
+        return $query
+            ->where('delivery_dt', '<', now())
+            ->where('status', CONFIRMED_ORDER)
+            ->orderBy('delivery_dt', 'desc');
+    }
+
+    public function scopeRelated(Builder $query)
+    {
+        return $query
+            ->with('orderProducts.product', 'partner');
+    }
+
+    public function getPriceAttribute()
+    {
+        return $this->orderProducts->map(function ($item) {
+                return $item['price'] * $item['quantity'];
+            })->sum() ?? null;
     }
 
     public function getProductNamesAttribute()
     {
-        return $this->orderProducts->implode('product.name', ', ');
+        return $this->orderProducts->implode('product.name', ', ') ?? null;
     }
 
     public function orderProducts()

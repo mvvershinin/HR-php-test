@@ -9,7 +9,7 @@
 
 
 <script src="{{ asset('/') }}js/app.js?v=1.0"></script>
-<script src="{{ asset('/') }}js/style.js?v=1.0"></script>
+<script src="{{ asset('/') }}js/script.js?v=1.0"></script>
 
 </body>
 </html>

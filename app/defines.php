@@ -3,9 +3,9 @@
 define('PAGE_SIZE_REGULAR', 25);
 define('PAGE_SIZE_BIG', 50);
 
-define('NEW',0);
-define('CONFIRMED', 10);
-define('FINISHED', 20);
+define('NEW_ORDER',0);
+define('CONFIRMED_ORDER', 10);
+define('FINISHED_ORDER', 20);
 
 define('STATUS',[
     0 => 'new',
