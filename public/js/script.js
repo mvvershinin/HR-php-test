@@ -1,5 +1,6 @@
 $(document).ready(function () {
     let table_layout = '.ajax-table';
+    let weather_layout = '.ajax-weather';
     let tab_link = '.ajax-tab';
     let paginator_layout = '.ajax-paginator';
     let paginator_link = '.ajax-pagination-link';
@@ -16,6 +17,18 @@ $(document).ready(function () {
         });
     }
 
+    function getWeather(){
+
+        $.ajax({
+            url: $(weather_layout).data('url'),
+            type: 'GET',
+        })
+            .done(function (data) {
+                console.log(data.html);
+                $(weather_layout).html(data.html);
+            });
+    }
+
     $(document).on('click', paginator_link, function(){
         event.preventDefault();
         getList($(this).attr('href'));
@@ -27,6 +40,11 @@ $(document).ready(function () {
         $(this).parents('li').addClass("active");
         getList($(this).attr('href'));
     });
-    //todo get url from active tab
-    getList('http://localhost/ajax/orders-all');
+
+    let default_url = $('.nav-tabs>li.active>a').attr('href');
+    if(default_url){
+        getList(default_url);
+    }
+
+    getWeather();
 });

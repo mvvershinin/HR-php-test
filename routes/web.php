@@ -12,11 +12,11 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/orders');
 })->name('index');
 
 Route::resource('orders', 'OrderController', [
-    'only' => ['index', 'edit']
+    'only' => ['index', 'edit', 'update']
 ]);
 
 Route::resource('products', 'ProductController', [
@@ -29,4 +29,6 @@ Route::group(['prefix' => 'ajax'], function () {
     Route::get('orders-current', 'Ajax\OrderController@getCurrent')->name('ajax.orders.current');
     Route::get('orders-overdue', 'Ajax\OrderController@getOverdue')->name('ajax.orders.overdue');
     Route::get('orders-finished', 'Ajax\OrderController@getFinished')->name('ajax.orders.finished');
+    Route::get('weather', 'Ajax\WeatherController@getWeather')->name('ajax.weather');
+    Route::get('partners/select', 'Ajax\PartnerController@getAll')->name('ajax.partners.select');
 });

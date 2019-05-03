@@ -11,7 +11,10 @@
     <tbody>
     @foreach($items as $order)
         <tr>
-            <td> {{ $order->id }}</td>
+            <td> <a href="{{ route('orders.edit', [$order]) }}" target="_blank">
+                    {{ $order->id }}
+                </a>
+            </td>
             <td> {{ $order->partner->name ?? null}} </td>
             <td> {{ $order->price }}</td>
             <td> {{ $order->product_names }} </td>

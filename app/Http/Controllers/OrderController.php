@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\updateOrder;
 use App\Order;
+use App\Partner;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -20,38 +22,6 @@ class OrderController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Order $order)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Order  $order
@@ -59,7 +29,12 @@ class OrderController extends Controller
      */
     public function edit(Order $order)
     {
-        //
+        return view('orders.edit', [
+            'item' => $order->load('orderProducts.product', 'partner'),
+            'partners' => Partner::get()->pluck('name', 'id'),
+            'statuses' => STATUS,
+            'active_page' => 'orders'
+        ]);
     }
 
     /**
@@ -69,19 +44,18 @@ class OrderController extends Controller
      * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Order $order)
+    public function update(updateOrder $request, $id)
     {
-        //
-    }
+        $request->validated();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Order $order)
-    {
-        //
+        $order = Order::find($id);
+        $order->update([
+            'client_email' => $request->get('client_email'),
+            'partner_id' => $request->get('partner_id'),
+            'status' => $request->get('status')
+        ]);
+
+        return redirect()->route('orders.edit', [$order]);
+
     }
 }

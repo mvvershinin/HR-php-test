@@ -8,7 +8,8 @@
                 <span class="icon-bar"></span>
             </button>
             <a href="{{ route('index') }}" class="navbar-brand">HR php test</a>
-        </div> <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-9">
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-9">
             <ul class="nav navbar-nav">
                 <li class="@if($active_page == 'orders') active @endif">
                     <a href="{{ route('orders.index') }}">Orders</a>
@@ -18,5 +19,6 @@
                 </li>
             </ul>
         </div>
+        @include('layouts.weather')
     </div>
 </nav>

@@ -17,7 +17,7 @@ class OrderController extends Controller
      */
     public function getAll()
     {
-        $data = Order::related()
+        $data = Order::related()->latest('updated_at')
             ->paginate(PAGE_SIZE_REGULAR);
 
         $html = view(ORDERS_TABLE_BODY,
