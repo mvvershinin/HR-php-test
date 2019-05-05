@@ -25,11 +25,33 @@ class Order extends Model
         'delivery_dt',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+        static::saving(function (Order $model) {
+            $changes = $model->getDirty();
+            if (!empty($changes['status']) && $changes['status'] == FINISHED_ORDER) {
+                //todo send emails
+            }
+        });
+    }
+
+    /**
+     * get string value for status
+     *
+     * @return mixed
+     */
     public function getStringStatusAttribute()
     {
         return STATUS[$this->status];
     }
 
+    /**
+     * params for query current orders
+     *
+     * @param Builder $query
+     * @return Builder
+     */
     public function scopeCurrentOrders(Builder $query)
     {
         return $query
@@ -38,6 +60,12 @@ class Order extends Model
             ->orderBy('delivery_dt', 'asc');
     }
 
+    /**
+     * params for query finished orders
+     *
+     * @param Builder $query
+     * @return Builder
+     */
     public function scopeFinishedOrders(Builder $query)
     {
         return $query
@@ -46,6 +74,12 @@ class Order extends Model
             ->orderBy('delivery_dt', 'desc');
     }
 
+    /**
+     * params for query new orders
+     *
+     * @param Builder $query
+     * @return Builder
+     */
     public function scopeNewOrders(Builder $query)
     {
         return $query
@@ -68,6 +102,13 @@ class Order extends Model
             ->with('orderProducts.product', 'partner');
     }
 
+    /**
+     * calculate total price for order
+     *
+     * from products items quantity and price
+     *
+     * @return |null
+     */
     public function getPriceAttribute()
     {
         return $this->orderProducts->map(function ($item) {
@@ -75,6 +116,13 @@ class Order extends Model
             })->sum() ?? null;
     }
 
+    /**
+     *  return names list
+     *
+     *  from products names
+     *
+     * @return string|null
+     */
     public function getProductNamesAttribute()
     {
         return $this->orderProducts->implode('product.name', ', ') ?? null;

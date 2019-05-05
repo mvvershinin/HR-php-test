@@ -30,5 +30,6 @@ Route::group(['prefix' => 'ajax'], function () {
     Route::get('orders-overdue', 'Ajax\OrderController@getOverdue')->name('ajax.orders.overdue');
     Route::get('orders-finished', 'Ajax\OrderController@getFinished')->name('ajax.orders.finished');
     Route::get('weather', 'Ajax\WeatherController@getWeather')->name('ajax.weather');
-    Route::get('partners/select', 'Ajax\PartnerController@getAll')->name('ajax.partners.select');
+    Route::get('products-price-edit', 'Ajax\ProductController@edit')->name('ajax.products.edit.price');
+    Route::post('products-price-update', 'Ajax\ProductController@update')->name('ajax.products.update.price');
 });

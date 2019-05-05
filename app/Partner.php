@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Model Order
+ * Model Partner
  *
  * @mixin \Eloquent
  */

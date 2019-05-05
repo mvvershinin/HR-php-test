@@ -6,7 +6,7 @@ use App\Http\Traits\Yandexable;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-define('WEATHER_INNER','layouts.weather_inner');
+define('WEATHER_INNER','include.weather');
 
 class WeatherController extends Controller
 {
