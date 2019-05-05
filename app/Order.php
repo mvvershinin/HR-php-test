@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Http\Traits\Mailable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,6 +19,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Order extends Model
 {
+    use Mailable;
+
     public $fillable = [
         'status',
         'client_email',
@@ -31,7 +34,7 @@ class Order extends Model
         static::saving(function (Order $model) {
             $changes = $model->getDirty();
             if (!empty($changes['status']) && $changes['status'] == FINISHED_ORDER) {
-                //todo send emails
+                self::makeFinishedOrder($model);
             }
         });
     }
