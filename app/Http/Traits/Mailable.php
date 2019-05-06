@@ -15,9 +15,12 @@ trait Mailable
         $order->load('orderProducts.product.vendor', 'partner');
         $vendors = $order->orderProducts->unique('product.vendor.email')->pluck('product.vendor.email');
         $partner = $order->partner->email;
-
-        Mail::to($partner)
+        try {
+            Mail::to($partner)
             ->cc($vendors)
             ->send(new OrderFinished($order));
+        } catch(\Exception $e) {
+            dump($e);
+        }
     }
 }
